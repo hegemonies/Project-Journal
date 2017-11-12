@@ -2,48 +2,11 @@
 #include <string>
 using namespace std;
 
-// Не работает выделение памяти
-class TimeTable {
-	int size_table;
-	int capacity;
-	OneTable *Table;
-public:
-	TimeTable(int size) {
-		Table = new OneTable [size];
-		capacity = 0;
-	}
-	void installName(string name) {
-		name_station[capacity] = name;
-		capacity++;
-	}
-	void printTable() {
-		for (int i = 0; i < capacity; i++) {
-			cout << name_station[i] << endl;
-		}
-	}
-	void addToTable(string name, int hour, int minute) {
-		Clock time(hour, minute);
-		OneTable cell(name, time);
-		Table[capacity] = cell;
-		capacity++;
-	}
-};
-
-class OneTable {
-	string name_station;
-	Clock time;
-public:
-	OneTable(string name, Clock tm) {
-		name_station = name;
-		time = tm;
-	}
-};
-
-
 class Clock {
 	int hour;
 	int minute;
 public:
+	Clock() { hour = minute = 0; }
 	Clock(int hr, int mnt) {
 		hour = hr;
 		minute = mnt;
@@ -94,6 +57,51 @@ public:
 		if (minute == 0) {
 			cout << "0";
 		}
+	}
+};
+
+class OneTable {
+	string name_station;
+	Clock time;
+public:
+	OneTable() {}
+	OneTable(string name, Clock tm) {
+		name_station = name;
+		time = tm;
+	}
+
+	string getNameStation() {
+		return name_station;
+	}
+
+	void setNameStation(string name) {
+
+	}
+};
+//Need refactoring
+class TimeTable {
+	int size_table;
+	int capacity;
+	OneTable *Table;
+public:
+	TimeTable(int size) {
+		Table = new OneTable [size];
+		capacity = 0;
+	}
+	void installName(string name) {
+		Table[capacity].setNameStation(name);
+		capacity++;
+	}
+	void printTable() {
+		for (int i = 0; i < capacity; i++) {
+			cout << Table[i].getNameStation() << endl;
+		}
+	}
+	void addToTable(string name, int hour, int minute) {
+		Clock time(hour, minute);
+		OneTable cell(name, time);
+		Table[capacity] = cell;
+		capacity++;
 	}
 };
 
